@@ -37,11 +37,36 @@ $(document).ready(function(){
 
 		img = $(document.createElement('img'));
 		img.attr({
-			src: tile.src,
+			src: 'img/tile-back.png',
 			alt:'image of tile' + tile.tileNum
 		});
 		img.data('tile',tile);
 		row.append(img);
 	});
 	gameBoard.append(row);
-});
+
+	$('#game-board img').click(function(){
+		var img = $(this);
+		var tile = img.data('tile');
+		img.fadeOut(100, function(){
+			if(tile.flipped){
+				img.attr('src', 'img/tile-back.png');
+			}else{
+				img.attr('src', tile.src);
+			}
+			tile.flipped = !tile.flipped;
+			img.fadeIn(100);
+		}); //fadeout			
+	});//on click of images
+
+	var startTime = _.now();
+	var timer = window.setInterval(function(){
+		var elapsedSeconds = Math.floor((_.now() - startTime) / 1000);
+		$('#elapsed-seconds').text(elapsedSeconds);
+
+		if(elapsedSeconds >= 10){
+			window.clearInterval(timer);
+		}
+	}, 1000);
+
+});//jQuery ready
