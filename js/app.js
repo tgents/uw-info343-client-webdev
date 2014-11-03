@@ -11,7 +11,7 @@ $(document).ready(function(){
 	var tempTile;
 
 
-	$('#newGameButton').on('click',function(){
+	$('#newGameButton').click(function(){
 		populateBoard(tilePairs);
 		//startTimer();
 	});
@@ -24,30 +24,23 @@ $(document).ready(function(){
 
 		flipTile(this);
 		numFlipped++;
-		console.log(numFlipped + "a");
+		if(numFlipped == 1){
+			tempTile = this;
+		}
 		if(numFlipped == 2){
-			console.log(checkMatch(this,tempTile));
-			console.log(numFlipped + "d");
 			if(checkMatch(this, tempTile)){
-				console.log(numFlipped + "b");
 				remainingPairs--;
-				tempTile = null;
-			}else{
-				console.log(numFlipped + "c");
+			}
+			else{
 				setTimeout(function(){
 					flipTile(this);
 					flipTile(tempTile);
-				}, 1000);
-
+				})
 			}
 			numFlipped = 0;
+			tempTile = null;
+			attempts++;
 		}
-		if(numFlipped == 1){
-			console.log(numFlipped + "e");
-			tempTile = this;
-		}
-		console.log(numFlipped + "f");
-		
 	});//on click of images
 
 	
@@ -123,15 +116,16 @@ function startTimer(){
 }
 
 function flipTile(tempTile){
+	console.log(tempTile);
 	var img = $(tempTile);
-		var tile = img.data('tile');
-		img.fadeOut(100, function(){
-			if(tile.flipped){
-				img.attr('src', 'img/tile-back.png');
-			}else{
-				img.attr('src', tile.src);
-			}
-			tile.flipped = !tile.flipped;
-			img.fadeIn(100);
-		}); //fadeout
+	var tile = img.data('tile');
+	img.fadeOut(100, function(){
+		if(tile.flipped){
+			img.attr('src', 'img/tile-back.png');
+		}else{
+			img.attr('src', tile.src);
+		}
+		tile.flipped = !tile.flipped;
+		img.fadeIn(100);
+	}); //fadeout
 }
