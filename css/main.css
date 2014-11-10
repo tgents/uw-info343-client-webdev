@@ -115,7 +115,8 @@ nav li{
 	margin-right: 1em;
 }
 
-nav li a:link{
+nav li a:link
+nav li a:visited{
 	color: #55E;
 }
 nav li a:hover,
@@ -136,7 +137,6 @@ nav li a:focus{
 	}
 
 	body main{
-		
 		margin-top: 20px;
 		margin-bottom: 20px;
 		background-image: url("../img/ricepaper_v3.png");
