@@ -1,53 +1,86 @@
 
 $(document).ready(function(){
-	
 	var tilePairs = createTiles();
-	populateBoard(tilePairs);
-
-	var totalPairs = 16;
-	var remainingPairs = 8;
-	var attempts = 0;
-	var numFlipped = 0;
+	var totalPairs = 8;
+	var remainingPairs;
+	var attempts;
+	var numFlipped;
 	var tempTile;
+	var tempTile2;
+	var timer;
 
+	populateBoard(tilePairs);
+	remainingPairs = totalPairs;
+	attempts = 0;
+	numFlipped = 0;
+	timer = startTimer(timer);
 
-	$('#newGameButton').click(function(){
-		populateBoard(tilePairs);
-		//startTimer();
-	});
+	$('#attempts').text("Attempts: " + attempts);
+	$('#remaining').text("Remaining: " + remainingPairs);
 
-	$('#game-board img').click(function(){
-		console.log('asdadsfasd');
-		if($(this).data('tile').flipped){
-			return;
-		}
+	var active = false;
+	$(document).on("click", "#game-board img", function(){
+		if(!active){
+			if(!$.data(this, 'tile').flipped){
+				numFlipped++;
+				flipTile(this);
+				if(numFlipped == 1){
+					tempTile = this;
+				}
+				if(numFlipped == 2){
+					active = true;
+					tempTile2 = this;
+					setTimeout(function(){
+						if(checkMatch(tempTile, tempTile2)){
+							remainingPairs--;
+						}else{
+							flipTile(tempTile);
+							flipTile(tempTile2);
+						}
+						attempts++;
+						numFlipped = 0;
 
-		flipTile(this);
-		numFlipped++;
-		if(numFlipped == 1){
-			tempTile = this;
-		}
-		if(numFlipped == 2){
-			if(checkMatch(this, tempTile)){
-				remainingPairs--;
+						$('#attempts').text("Attempts: " + attempts);
+						$('#remaining').text("Remaining: " + remainingPairs);
+
+						if(remainingPairs == 0){
+							$(".overlay").fadeIn(500);
+							window.clearInterval(timer);
+						}
+						tempTile = null;
+						tempTile2 = null;
+						active = false;
+					}, 1000);
+				}
 			}
-			else{
-				setTimeout(function(){
-					flipTile(this);
-					flipTile(tempTile);
-				})
-			}
-			numFlipped = 0;
-			tempTile = null;
-			attempts++;
 		}
 	});//on click of images
 
+	$('.newGameButton').click(function(){
+		$(".overlay").fadeOut(100);
+		window.clearInterval(timer);
+
+		var img = $("#game-board img");
+
+		for(var idx = 0; idx < img.length; idx++){
+			$.data(img.get(idx), 'tile').flipped = false;
+		}
+
+		populateBoard(tilePairs);
+		remainingPairs = totalPairs;
+		attempts = 0;
+		numFlipped = 0;
+		timer = startTimer(timer);
+
+		$('#attempts').text("Attempts: " + attempts);
+		$('#remaining').text("Remaining: " + remainingPairs);
+	});
+
+	$('#instructButt').click(function(){
+		alert("Click any card to overturn it, then overturn another card. If both are the same they are removed. Only two cards can be overturned at a time.");
+	});
+
 	
-
-	//timer
-	//startTimer();
-
 });//jQuery ready
 
 function checkMatch(tile1, tile2){
@@ -60,16 +93,14 @@ function createTiles(){
 	for(idx = 1; idx <= 32; idx++){
 		tiles.push({
 			tileNum: idx,
-			src: 'img/tile' + idx + '.jpg'
+			src: 'img/tile' + idx + '.jpg',
+			flipped: false
 		});
 	}
 
-	//console.log(tiles);
 	var shuffledTiles = _.shuffle(tiles);
-	//console.log(shuffledTiles);
 
 	var selectedTiles = shuffledTiles.slice(0,8);
-	//console.log(selectedTiles);
 
 	var tilePairs = [];
 	_.forEach(selectedTiles, function(tile){
@@ -95,7 +126,7 @@ function populateBoard(tilePairs){
 		img = $(document.createElement('img'));
 		img.attr({
 			src: 'img/tile-back.png',
-			alt:'image of tile' + tile.tileNum
+			alt:'image of tile' + tile.tileNum,
 		});
 		img.data('tile',tile);
 		row.append(img);
@@ -103,20 +134,16 @@ function populateBoard(tilePairs){
 	gameBoard.append(row);
 }
 
-function startTimer(){
+function startTimer(timer){
 	var startTime = _.now();
-	var timer = window.setInterval(function(){
+	timer = window.setInterval(function(){
 		var elapsedSeconds = Math.floor((_.now() - startTime) / 1000);
 		$('#elapsed-seconds').text("Timer: " + elapsedSeconds + " seconds");
-
-		/*if(elapsedSeconds >= 10){
-			window.clearInterval(timer);
-		}*/
 	}, 1000);
+	return timer;
 }
 
 function flipTile(tempTile){
-	console.log(tempTile);
 	var img = $(tempTile);
 	var tile = img.data('tile');
 	img.fadeOut(100, function(){

@@ -6,14 +6,30 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 	<body>
-		<h1>Memory Game!</h1>
-		<button id="newGameButton">New Game</button>
-		<p id="elapsed-seconds">Timer: 0 seconds</p>
+		<div class="overlay">
+			Congratulations! You win!
+			<button class="newGameButton">Start New Game</button>
+		</div>
 
-		<div id="game-board"></div>
+		<main>
+			<h1>Memory Game!</h1>
+			<a href=""></a>
+			<div id="info">
+				<p id="elapsed-seconds">Timer: 0 seconds</p>
+				<p id="attempts">Attempts: </p>
+				<p id="remaining">Remaining: </p>
 
-		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-		<script src="js/app.js"></script>
+				<button class="newGameButton">New Game</button>
+				<button id="instructButt">Instructions</button>
+			</div>
+
+			<div id="newSection"></div>
+
+			<div id="game-board"></div>
+
+			<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+			<script src="js/app.js"></script>
+		</main>
 	</body>
 </html>
