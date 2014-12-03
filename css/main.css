@@ -11,3 +11,10 @@ body {
     margin-right: 10px;
 }
 
+.tup:hover{
+	color: #FE373C;
+}
+
+.dup:hover{
+	color: #FFA742;
+}

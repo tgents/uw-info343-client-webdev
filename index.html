@@ -9,7 +9,7 @@
     </head>
     <body>
 
-        <main class="container">
+        <main class="container" ng-app="CommentApp" ng-controller="CommentController">
             <section>
                 <img src="img/super-bass-o-matic-76.jpg" alt="product picture" class="product-picture">
                 <h1>The Super Bass-o-Matic '76</h1>
@@ -18,23 +18,67 @@
 
             <section>
                 <h2>Add a Comment</h2>
-                <!--  
-                put a form here for entering a new comment
-                the user must select a rating, and enter a name, title, and comment body
-                before the comment can be saved to the server
-                for the rating selection, use the Angular Bootstrap Rating directive 
-                http://angular-ui.github.io/bootstrap/#/rating
-                their script file is included below
-                -->
+                <form>
+                    <div class="form-group">
+                        <label for="comment-rating">Rating</label>
+                        <rating max="5" ng-model="newComment.score"></rating>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-name">Name</label>
+                        <input type="text" id="comment-name" class="form-control" placeholder="Your Name" ng-model="newComment.name"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-title">Title</label>
+                        <input type="text" id="comment-title" class="form-control" placeholder="title of comment" ng-model="newComment.title"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-text">Comments</label>
+                        <input type="text" id="comment-text" class="form-control" placeholder="Comment..." ng-model="newComment.comment"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" ng-click="addComment()">Add Comment</button>
+                    </div>
+                </form>
             </section>
 
             <section>
-                <h2>Comments</h2>
-                <!-- 
-                display existing comments here
-                each comment should also have UI allowing the user to vote up/down the comment
-                as well as delete it
-                 -->
+                <h2>Comments<img src="img/ajax-spinner.gif" alt="loading animation" ng-if="loading"/> </h2>
+                <p>
+                    <button class="btn btn-primary" ng-click="refreshsComments()">Refresh</button>
+                </p>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Votes</th>
+                            <th>Rating</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Comment</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="comment in comments">
+                            <td>
+                                {{comment.votes || 0}}
+                                <span class="glyphicon glyphicon-thumbs-up tup" ng-click="incrementVotes(comment, 1)"></span>
+                                <span class="glyphicon glyphicon-thumbs-down dup" ng-click="incrementVotes(comment, -1)"></span>
+                            </td>
+                            <td>
+                                <rating max="5" ng-model="comment.score" ng-change="updateComment(comment)"></rating>
+                            </td>
+                            <td>{{comment.name}}</td>
+                            <td>{{comment.title}}</td>
+                            <td>{{comment.comment}}</td>
+                            <td><button id="delete" class="btn btn-danger" ng-click="deleteComment(comment)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
 
         </main>
