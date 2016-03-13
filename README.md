@@ -1,4 +1,6 @@
-toolbox-challenge
+How's your memory?
 =================
 
-Assets and file stubs for the Expanding Your Toolbox Challenge
+Test your memory with a classic matching game!
+
+Bringing together some skills in CSS and HTML layout as well as some JavaScript functions.
