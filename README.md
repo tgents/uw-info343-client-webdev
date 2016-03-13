@@ -1,4 +1,4 @@
-merging-data
+Pawnee Directory
 ============
 
-Assets and file stubs for the merging data challenge
+Practicing importing JSON data. Don't actually try to contact these guys please...
