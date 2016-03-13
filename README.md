@@ -1,4 +1,4 @@
-traffic-cam-challenge
+Check out all the traffic cameras around Seattle!
 =====================
 
-Assets and file stubs for the traffic camera Google Map challenge
+Utilizes JavaScript to pull JSON data from Seattle's data hub and plots markers on a Google map.
