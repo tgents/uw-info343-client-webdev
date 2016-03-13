@@ -1,4 +1,4 @@
-ajax-challenge
+Submit a comment!
 ==============
 
-File stubs and assets for the AJAX/Parse.com challenge
+Uses AngularJS to read and submit a form to Parse.com and displays the comment below the form.
