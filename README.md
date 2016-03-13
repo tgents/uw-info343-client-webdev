@@ -1,4 +1,4 @@
-layout-challenge
+Dawg Pizza website
 ================
 
-File stubs and assets for page layout challenge
+Playing around with Bootstrap and practicing responsiveness. Check out our delicious lorem pizzas!
