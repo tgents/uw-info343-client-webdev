@@ -1,4 +1,4 @@
-javascript-challenge
+Sign Me Up!
 ====================
 
-Assets and files for the Essential JavaScript Challenge
+Practicing forms and sending them somewhere, also boosting my JavaScript skills. Actually doesn't send anywhere...
