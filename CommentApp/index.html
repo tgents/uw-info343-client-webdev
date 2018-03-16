@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Product Comments</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+
+        <main class="container" ng-app="CommentApp" ng-controller="CommentController">
+            <section>
+                <img src="img/super-bass-o-matic-76.jpg" alt="product picture" class="product-picture">
+                <h1>The Super Bass-o-Matic '76</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia cumque deserunt ullam repudiandae nisi corporis! Ipsum, ducimus commodi, itaque porro distinctio consequuntur! Autem doloremque numquam nemo ex nulla tempora quis! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde nihil doloribus excepturi quisquam error possimus veritatis facere, commodi cumque ab atque dolore ducimus obcaecati ipsa, impedit! Consequuntur, eligendi iure cumque!</p>
+            </section>
+
+            <section>
+                <h2>Add a Comment</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="comment-rating">Rating</label>
+                        <rating max="5" ng-model="newComment.score"></rating>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-name">Name</label>
+                        <input type="text" id="comment-name" class="form-control" placeholder="Your Name" ng-model="newComment.name"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-title">Title</label>
+                        <input type="text" id="comment-title" class="form-control" placeholder="title of comment" ng-model="newComment.title"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment-text">Comments</label>
+                        <input type="text" id="comment-text" class="form-control" placeholder="Comment..." ng-model="newComment.comment"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" ng-click="addComment()">Add Comment</button>
+                    </div>
+                </form>
+            </section>
+
+            <section>
+                <h2>Comments<img src="img/ajax-spinner-sm.gif" alt="loading animation" ng-if="loading"/> </h2>
+                <p>
+                    <button class="btn btn-primary" ng-click="refreshsComments()">Refresh</button>
+                </p>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Votes</th>
+                            <th>Rating</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Comment</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="comment in comments">
+                            <td>
+                                {{comment.votes || 0}}
+                                <span class="glyphicon glyphicon-thumbs-up tup" ng-click="incrementVotes(comment, 1)"></span>
+                                <span class="glyphicon glyphicon-thumbs-down dup" ng-click="incrementVotes(comment, -1)"></span>
+                            </td>
+                            <td>
+                                <rating max="5" ng-model="comment.score" ng-change="updateComment(comment)"></rating>
+                            </td>
+                            <td>{{comment.name}}</td>
+                            <td>{{comment.title}}</td>
+                            <td>{{comment.comment}}</td>
+                            <td><button id="delete" class="btn btn-danger" ng-click="deleteComment(comment)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.2/angular.min.js"></script>
+        <script src="lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
